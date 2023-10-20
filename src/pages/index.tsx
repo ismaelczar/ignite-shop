@@ -6,6 +6,8 @@ import 'keen-slider/keen-slider.min.css'
 import { stripe } from "@/lib/stripe"
 import { GetStaticProps } from "next"
 import Stripe from "stripe"
+import { ValueFormatter } from "@/utils/formatter"
+import Link from "next/link"
 
 
 
@@ -24,7 +26,6 @@ export default function Home({ products }: HomeProps) {
     slides: {
       perView: 3,
       spacing: 48,
-
     }
   })
 
@@ -32,14 +33,16 @@ export default function Home({ products }: HomeProps) {
     <HomeContainer ref={sliderRef} className="keen-slider">
       {products.map(product => {
         return (
-          <Product key={product.id} className="keen-slider__slide">
-            <Image src={product.imageUrl} width={520} height={480} alt="" />
+          <Link key={product.id} href={`/product/${product.id}`}>
+            <Product className="keen-slider__slide">
+              <Image src={product.imageUrl} width={520} height={480} alt="" />
 
-            <footer>
-              <strong>{product.name}</strong>
-              <span>{product.price}</span>
-            </footer>
-          </Product>
+              <footer>
+                <strong>{product.name}</strong>
+                <span>{product.price}</span>
+              </footer>
+            </Product>
+          </Link>
         )
       })}
     </HomeContainer>
@@ -56,13 +59,13 @@ export const getStaticProps: GetStaticProps = async () => {
   const products = response.data.map(product => {
     const price = product.default_price as Stripe.Price;
 
-
-    //verificação de nulidade
     return {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount !== null ? price.unit_amount / 100 : 0
+      price: ValueFormatter.format(price.unit_amount !== null
+        ? price.unit_amount / 100
+        : 0)
     }
   })
 
@@ -71,6 +74,6 @@ export const getStaticProps: GetStaticProps = async () => {
       products
     },
 
-    revalidate: 10,
+    revalidate: 60 * 60 * 2,
   }
 }
