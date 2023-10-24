@@ -45,9 +45,9 @@ export const ProductDetails = styled('div', {
 
   p: {
     marginTop: '2.5rem',
-    fontSize: '$md',
+    fontSize: '$2xl',
     lineHeight: 1.6,
-    color: '$gray300',
+    color: '$withe',
   },
 
   button: {
