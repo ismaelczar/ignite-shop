@@ -3,7 +3,6 @@ import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/compo
 import { ValueFormatter } from "@/utils/formatter"
 import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image"
-import { useRouter } from "next/router"
 import Stripe from "stripe"
 
 
@@ -14,16 +13,15 @@ interface ProductProps {
     imageUrl: string
     price: string
     description: string
+    priceId: string
   }
 }
 
 
 export default function Clientes({ product }: ProductProps) {
 
-  const { isFallback } = useRouter()
-
-  if (isFallback) {
-    return <h1>Loading ....</h1>
+  function handleByProduct() {
+    console.log(product.priceId)
   }
 
   return (
@@ -35,7 +33,7 @@ export default function Clientes({ product }: ProductProps) {
         <h1>{product.name}</h1>
         <span>{product.price}</span>
         <p>{product.description}</p>
-        <button>Comprar agora</button>
+        <button onClick={handleByProduct}>Comprar agora</button>
       </ProductDetails>
     </ProductContainer>
   )
@@ -52,13 +50,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 
-//Sera o SSG, pois a minha pagina nao depende de hook, não tem problema ela ser uma pagina estatc
+
 export const getStaticProps: GetStaticProps = async ({ params }: any) => {
 
 
   const productId = String(params.id);
 
-  //requisição
   const product = await stripe.products.retrieve(productId, {
     expand: ['default_price']
   })
@@ -74,7 +71,8 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
         price: ValueFormatter.format(price.unit_amount !== null
           ? price.unit_amount / 100
           : 0),
-        description: product.description
+        description: product.description,
+        priceId: price.id,
       }
     }
   }
