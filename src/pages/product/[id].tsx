@@ -1,7 +1,9 @@
 import { stripe } from "@/lib/stripe"
 import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/components/product"
 import { ValueFormatter } from "@/utils/formatter"
+import axios from "axios"
 import { GetStaticPaths, GetStaticProps } from "next"
+import Head from "next/head"
 import Image from "next/image"
 import Stripe from "stripe"
 
@@ -20,22 +22,40 @@ interface ProductProps {
 
 export default function Clientes({ product }: ProductProps) {
 
-  function handleByProduct() {
-    console.log(product.priceId)
+  async function handleByProduct() {
+
+    try {
+      const response = await axios.post('/api/checkout', {
+        priceId: product.priceId
+      })
+
+      const { checkoutUrl } = response.data
+      window.location.href = checkoutUrl
+    } catch (error) {
+      alert('Falha ao redirencionar ao checkout!')
+    }
   }
 
   return (
-    <ProductContainer>
-      <ImageContainer>
-        <Image src={product.imageUrl} width={520} height={480} alt="" />
-      </ImageContainer>
-      <ProductDetails>
-        <h1>{product.name}</h1>
-        <span>{product.price}</span>
-        <p>{product.description}</p>
-        <button onClick={handleByProduct}>Comprar agora</button>
-      </ProductDetails>
-    </ProductContainer>
+    <>
+      <Head>
+        <title>{product.name} | Ignite Shop</title>
+      </Head>
+      <ProductContainer>
+        <ImageContainer>
+          <Image src={product.imageUrl} width={520} height={480} alt="" />
+        </ImageContainer>
+        <ProductDetails>
+          <h1>{product.name}</h1>
+          <span>{product.price}</span>
+          <p>{product.description}</p>
+
+          <button onClick={handleByProduct}>
+            Comprar agora
+          </button>
+        </ProductDetails>
+      </ProductContainer>
+    </>
   )
 }
 
