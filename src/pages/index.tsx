@@ -1,4 +1,4 @@
-import { HomeContainer, Product } from "@/styles/components/home"
+import { HomeContainer, Product, Separator } from "@/styles/components/home"
 import Image from "next/image"
 import { useKeenSlider } from 'keen-slider/react'
 
@@ -9,6 +9,9 @@ import Stripe from "stripe"
 import { ValueFormatter } from "@/utils/formatter"
 import Link from "next/link"
 import Head from "next/head"
+import { Bag } from 'phosphor-react'
+
+
 
 
 
@@ -30,24 +33,33 @@ export default function Home({ products }: HomeProps) {
     }
   })
 
+
   return (
     <>
       <Head>
         <title>Home | Ignite Shop</title>
       </Head>
       <HomeContainer ref={sliderRef} className="keen-slider">
+
         {products.map(product => {
           return (
-            <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
+            <>
               <Product className="keen-slider__slide">
-                <Image src={product.imageUrl} width={520} height={480} alt="" />
+                <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
+                  <Image src={product.imageUrl} width={520} height={480} alt="" />
+                </Link>
 
                 <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
+                  <Separator>
+                    <strong>{product.name}</strong>
+                    <span>{product.price}</span>
+                  </Separator>
+                  <button>
+                    <Bag size={32} weight="bold" color="#ffffff" />
+                  </button>
                 </footer>
               </Product>
-            </Link>
+            </>
           )
         })}
       </HomeContainer>

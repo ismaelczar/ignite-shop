@@ -13,7 +13,6 @@ export const HomeContainer = styled('main', {
 export const Product = styled('div', {
   background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
   borderRadius: 8,
-  cursor: 'pointer',
   position: 'relative',
   overflow: 'hidden',
 
@@ -32,6 +31,8 @@ export const Product = styled('div', {
     left: '0.25rem',
     padding: '2rem',
 
+    cursor: "initial",
+
     borderRadius: 6,
 
     display: 'flex',
@@ -44,9 +45,6 @@ export const Product = styled('div', {
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
 
-
-
-
     strong: {
       fontSize: '$lg',
       color: '$gray100'
@@ -56,7 +54,16 @@ export const Product = styled('div', {
       fontSize: '$xl',
       fontWeight: 'bold',
       color: '$green300',
-    }
+    },
+
+    button: {
+      padding: 12,
+      background: '$green300',
+      borderRadius: 8,
+      border: 'none',
+
+      cursor: 'pointer'
+    },
   },
 
   '&:hover': {
@@ -65,4 +72,9 @@ export const Product = styled('div', {
       opacity: 1,
     }
   }
+})
+
+export const Separator = styled('div', {
+  display: 'flex',
+  flexDirection: 'column'
 })
