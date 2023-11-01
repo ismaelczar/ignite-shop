@@ -1,63 +1,83 @@
 import Image from "next/image";
 import Img from '@/assets/image.svg'
-import { CartContainer, Details, ProductSessionSelected, Products } from "./styled";
+import { Close, Content, Details, ImageContainer, Overlay, ProductsSelected, Product, ProductsContainer, Title, Summary, Separator } from "./styled";
+import { X } from "phosphor-react";
+import { useState } from "react";
 
-import * as Dialog from '@radix-ui/react-dialog'
+import { useShoppingCart } from 'use-shopping-cart'
+import dynamic from 'next/dynamic';
 
 export default function Cart() {
 
+  interface ProductProps {
+    id: string;
+    imageUrl: string;
+    description: string;
+    price: string
+  }
+
+  const [products, setProducts] = useState<ProductProps[]>([])
+  const { totalPrice, redirectToCheckout, cartCount } = useShoppingCart()
+
   return (
-    <>
-      <CartContainer>
-        <Dialog.Close asChild>
-          <button>X</button>
-        </Dialog.Close>
+    <Overlay>
+      <Content>
 
-        <ProductSessionSelected>
-          <Products>
-            <Dialog.Title>Sacola de compras</Dialog.Title>
-            <div>
-              <Image src={Img} alt="" />
-              <div>
+        <ProductsSelected>
+          <Close asChild>
+            <button>
+              <X size={24} weight="bold" />
+            </button>
+          </Close>
+
+          <Title>Sacola de compras</Title>
+
+          <ProductsContainer>
+            <Product>
+              <ImageContainer>
+                <Image src={Img} alt="" />
+              </ImageContainer>
+
+              <Details>
                 <small>Camiseta Beyond the Limits</small>
                 <strong>R$ 79,90</strong>
-                <p>Remover</p>
-              </div>
-            </div>
+                <button>Remover</button>
+              </Details>
+            </Product>
 
-            <div>
-              <Image src={Img} alt="" />
-              <div>
+            <Product>
+              <ImageContainer>
+                <Image src={Img} alt="" />
+              </ImageContainer>
+
+              <Details>
                 <small>Camiseta Beyond the Limits</small>
                 <strong>R$ 79,90</strong>
-                <p>Remover</p>
-              </div>
-            </div>
+                <button>Remover</button>
+              </Details>
+            </Product>
+          </ProductsContainer>
+        </ProductsSelected>
 
-            <div>
-              <Image src={Img} alt="" />
-              <div>
-                <small>Camiseta Beyond the Limits</small>
-                <strong>R$ 79,90</strong>
-                <p>Remover</p>
-              </div>
-            </div>
-          </Products>
 
-          <Details>
-            <div>
+        <Summary>
+          <div>
+            <Separator>
               <p>Quantidades</p>
-              <p>3 Itens</p>
-            </div>
+              <p>{cartCount} Itens</p>
+            </Separator>
 
-            <div>
-              <small>Valor total</small>
-              <strong>100,00</strong>
-            </div>
-          </Details>
-        </ProductSessionSelected>
-      </CartContainer>
+            <Separator>
+              <b>Valor total</b>
+              <strong>R$ {totalPrice}</strong>
+            </Separator>
+          </div>
 
-    </>
+          <button onClick={redirectToCheckout}>Finalizar compra</button>
+        </Summary>
+      </Content>
+
+    </Overlay>
   )
+
 }

@@ -25,15 +25,27 @@ export const Header = styled('header', {
 
 export const BagContainer = styled('button', {
   border: 'none',
-  background: '$gray800',
+  background: '$gray900',
   borderRadius: 8,
   padding: 12,
 
   position: 'relative',
 
+  cursor: 'pointer',
+
   svg: {
-    color: '$gray300'
+    color: '$gray400'
+  },
+
+  '&:hover': {
+    background: '$gray800',
+
+    svg: {
+      color: '$white',
+    }
   }
+
+
 })
 
 export const BagLength = styled('span', {

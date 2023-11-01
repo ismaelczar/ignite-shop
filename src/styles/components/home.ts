@@ -58,11 +58,21 @@ export const Product = styled('div', {
 
     button: {
       padding: 12,
-      background: '$green300',
+      background: '$green500',
       borderRadius: 8,
       border: 'none',
+      cursor: 'pointer',
 
-      cursor: 'pointer'
+      svg: {
+        color: '$gray300',
+      },
+
+      '&:hover': {
+        background: '$green300',
+        svg: {
+          color: '$white',
+        }
+      },
     },
   },
 
