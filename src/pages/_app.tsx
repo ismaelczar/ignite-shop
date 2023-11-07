@@ -12,17 +12,15 @@ export default function App({ Component, pageProps }: AppProps) {
   const stipeKey = String(process.env.STRIPE_PUBLIC_KEY)
 
   return (
-
     <CartProvider
       mode="payment"
       cartMode="client-only"
       stripe={stipeKey}
       successUrl={`${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`}
       cancelUrl={`${process.env.NEXT_URL}/`}
-      currency="USD"
+      currency="BRL"
       allowedCountries={['US', 'GB', 'CA']}
-      billingAddressCollection={true}
-      shouldPersist
+      shouldPersist={true}
     >
       <Layout>
         <Component {...pageProps} />

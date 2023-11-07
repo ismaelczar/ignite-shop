@@ -141,5 +141,16 @@ export const Separator = styled('div', {
   }
 })
 
+export const Empty = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
 
+  margin: 'auto 0px',
+
+  small: {
+    color: '$green300'
+  }
+})
 

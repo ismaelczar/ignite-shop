@@ -5,6 +5,7 @@ import { Bag } from "phosphor-react"
 
 import * as Dialog from '@radix-ui/react-dialog';
 import Cart from "../Cart";
+import { useShoppingCart } from "use-shopping-cart";
 
 
 interface LayoutProps {
@@ -12,6 +13,9 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
+
+  const { cartCount } = useShoppingCart()
+
   return (
     <Container>
       <Header>
@@ -23,7 +27,7 @@ export default function Layout({ children }: LayoutProps) {
             <BagContainer>
               <Bag size={18} weight='bold' />
               <BagLength>
-                1
+                {cartCount}
               </BagLength>
             </BagContainer>
           </Dialog.Trigger>

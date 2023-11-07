@@ -10,8 +10,7 @@ import { ValueFormatter } from "@/utils/formatter"
 import Link from "next/link"
 import Head from "next/head"
 import { Bag } from 'phosphor-react'
-
-
+import { useShoppingCart } from "use-shopping-cart"
 
 
 
@@ -20,12 +19,17 @@ interface HomeProps {
     id: string
     name: string
     imageUrl: string
-    price: string
+    price: number
+    currency: string
+    description: string
+    sku: string
   }[]
 }
 
 export default function Home({ products }: HomeProps) {
 
+  console.log(products)
+  const { addItem } = useShoppingCart()
   const [sliderRef] = useKeenSlider({
     slides: {
       perView: 3,
@@ -33,6 +37,7 @@ export default function Home({ products }: HomeProps) {
     }
   })
 
+  const { clearCart } = useShoppingCart()
 
   return (
     <>
@@ -54,8 +59,11 @@ export default function Home({ products }: HomeProps) {
                     <strong>{product.name}</strong>
                     <span>{product.price}</span>
                   </Separator>
-                  <button>
+                  <button onClick={() => addItem(product, { count: 1 })}>
                     <Bag size={32} weight="bold" />
+                  </button>
+                  <button onClick={clearCart}>
+                    limpar
                   </button>
                 </footer>
               </Product>
@@ -82,10 +90,12 @@ export const getStaticProps: GetStaticProps = async () => {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: ValueFormatter.format(price.unit_amount !== null
+      price: price.unit_amount !== null
         ? price.unit_amount / 100
-        : 0),
-      description: product.description
+        : 0,
+      description: product.description,
+      currency: 'USD',
+      sku: product.id
     }
   })
   return {
