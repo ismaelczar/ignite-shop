@@ -6,7 +6,6 @@ import 'keen-slider/keen-slider.min.css'
 import { stripe } from "@/lib/stripe"
 import { GetStaticProps } from "next"
 import Stripe from "stripe"
-import { ValueFormatter } from "@/utils/formatter"
 import Link from "next/link"
 import Head from "next/head"
 import { Bag } from 'phosphor-react'
@@ -61,9 +60,6 @@ export default function Home({ products }: HomeProps) {
                   </Separator>
                   <button onClick={() => addItem(product, { count: 1 })}>
                     <Bag size={32} weight="bold" />
-                  </button>
-                  <button onClick={clearCart}>
-                    limpar
                   </button>
                 </footer>
               </Product>

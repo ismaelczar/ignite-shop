@@ -1,16 +1,56 @@
 import Image from "next/image";
-import { Close, Content, Details, ImageContainer, Overlay, ProductsSelected, Product, ProductsContainer, Title, Summary, Separator, Empty } from "./styled";
+import {
+  Close,
+  Content,
+  Details,
+  ImageContainer,
+  Overlay,
+  ProductsSelected,
+  Product,
+  ProductsContainer,
+  Title,
+  Summary,
+  Separator,
+  Empty,
+  Control
+} from "./styled";
 import { X } from "phosphor-react";
 
-import { DebugCart, useShoppingCart } from 'use-shopping-cart'
+import { useShoppingCart } from 'use-shopping-cart'
+import axios from "axios";
 
 
 export default function Cart() {
 
-  const { totalPrice, cartDetails, removeItem } = useShoppingCart()
+  const {
+    totalPrice,
+    cartDetails,
+    cartCount,
+    removeItem,
+    incrementItem,
+    decrementItem,
+    redirectToCheckout
+  } = useShoppingCart()
+
   const products = cartDetails ? Object.keys(cartDetails).map(item => cartDetails[item]) : [];
 
-  console.log(products)
+  async function handleByProduct() {
+
+    try {
+      const response = await axios.post('/api/checkout', {
+        products: products
+      })
+
+      const { checkoutUrl } = response.data
+      window.location.href = checkoutUrl
+    } catch (error) {
+      alert('Falha ao redirencionar ao checkout!')
+    }
+
+
+  }
+
+  console.log(cartDetails)
 
   return (
     <Overlay>
@@ -38,7 +78,14 @@ export default function Cart() {
                       <Details>
                         <small>{product.name}</small>
                         <strong>{product.price}</strong>
-                        <button onClick={() => removeItem(product.id)}>Remover</button>
+                        <Control>
+                          <button onClick={() => decrementItem(product.id)}>-</button>
+                          <span>{product.quantity}</span>
+                          <button onClick={() => incrementItem(product.id)}>+</button>
+                          <div>
+                            <button onClick={() => removeItem(product.id)}>Remover</button>
+                          </div>
+                        </Control>
                       </Details>
                     </Product>
                   ))
@@ -49,16 +96,15 @@ export default function Cart() {
               <div>
                 <Separator>
                   <p>Quantidades</p>
-                  <p>{products.length} Itens</p>
+                  <p>{cartCount} Itens</p>
                 </Separator>
 
                 <Separator>
                   <b>Valor total</b>
-                  <strong>R$ {totalPrice}</strong>
+                  <strong>R$ {totalPrice?.toFixed(2)}</strong>
                 </Separator>
               </div>
-
-              <button>Finalizar compra</button>
+              <button onClick={handleByProduct}>Finalizar compra</button>
             </Summary>
           </>
         ) :

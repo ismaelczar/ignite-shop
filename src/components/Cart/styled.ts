@@ -87,23 +87,6 @@ export const Details = styled('div', {
 
   strong: {
     paddingTop: '8px'
-  },
-
-  button: {
-    border: 'none',
-    background: 'transparent',
-
-    color: '$green500',
-    fontWeight: 'bold',
-    textAlign: 'initial',
-
-    paddingTop: '8px',
-
-    cursor: 'pointer',
-
-    '&:hover': {
-      color: '$green300',
-    }
   }
 })
 
@@ -154,3 +137,40 @@ export const Empty = styled('div', {
   }
 })
 
+export const Control = styled('div', {
+
+  display: 'flex',
+  alignItems: 'center',
+  textAlign: 'center',
+
+  gap: '0.5rem',
+  padding: '5px 0px',
+
+
+  span: {
+    fontSize: 12,
+    borderRadius: '5px',
+    background: '$green500',
+    padding: '1px 5px',
+    color: '$white',
+  },
+
+  button: {
+    border: 'none',
+    background: 'transparent',
+
+    color: '$green500',
+    fontWeight: 'bold',
+    textAlign: 'initial',
+    cursor: 'pointer',
+
+    '&:hover': {
+      color: '$green300',
+    }
+
+  },
+
+  'button:last-child': {
+    paddingLeft: '1rem'
+  },
+})

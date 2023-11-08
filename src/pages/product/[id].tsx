@@ -7,34 +7,24 @@ import Head from "next/head"
 import Image from "next/image"
 import Stripe from "stripe"
 
+import { useShoppingCart } from "use-shopping-cart"
+
 
 interface ProductProps {
   product: {
     id: string
     name: string
     imageUrl: string
-    price: string
+    price: number
     description: string
     priceId: string
+    currency: string
+    sku: string
   }
 }
 
-
 export default function Clientes({ product }: ProductProps) {
-
-  async function handleByProduct() {
-
-    try {
-      const response = await axios.post('/api/checkout', {
-        priceId: product.priceId
-      })
-
-      const { checkoutUrl } = response.data
-      window.location.href = checkoutUrl
-    } catch (error) {
-      alert('Falha ao redirencionar ao checkout!')
-    }
-  }
+  const { addItem } = useShoppingCart()
 
   return (
     <>
@@ -50,7 +40,7 @@ export default function Clientes({ product }: ProductProps) {
           <span>{product.price}</span>
           <p>{product.description}</p>
 
-          <button onClick={handleByProduct}>
+          <button onClick={() => addItem(product, { count: 1 })}>
             Colocar na sacola
           </button>
         </ProductDetails>
@@ -88,11 +78,13 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: ValueFormatter.format(price.unit_amount !== null
+        price: price.unit_amount !== null
           ? price.unit_amount / 100
-          : 0),
+          : 0,
         description: product.description,
         priceId: price.id,
+        sku: product.id,
+        currency: 'USD',
       }
     }
   }
