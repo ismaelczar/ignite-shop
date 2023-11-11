@@ -25,7 +25,7 @@ export const Header = styled('header', {
 
 export const BagContainer = styled('button', {
   border: 'none',
-  background: '$gray900',
+  background: '$gray800',
   borderRadius: 8,
   padding: 12,
 

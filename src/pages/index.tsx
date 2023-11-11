@@ -10,7 +10,8 @@ import Link from "next/link"
 import Head from "next/head"
 import { Bag } from 'phosphor-react'
 import { useShoppingCart } from "use-shopping-cart"
-
+import { useEffect, useState } from "react"
+import Skeleton from "@/components/Skeleton"
 
 
 interface HomeProps {
@@ -26,8 +27,7 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-
-  console.log(products)
+  const [loading, setLoading] = useState(true)
   const { addItem } = useShoppingCart()
   const [sliderRef] = useKeenSlider({
     slides: {
@@ -36,39 +36,49 @@ export default function Home({ products }: HomeProps) {
     }
   })
 
-  const { clearCart } = useShoppingCart()
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }, [])
 
-  return (
-    <>
-      <Head>
-        <title>Home | Ignite Shop</title>
-      </Head>
-      <HomeContainer ref={sliderRef} className="keen-slider">
+  if (!loading) {
+    return (
+      <>
+        <Head>
+          <title>Home | Ignite Shop</title>
+        </Head>
+        <HomeContainer ref={sliderRef} className="keen-slider">
+          {products.map(product => {
+            return (
+              <>
+                <Product className="keen-slider__slide">
+                  <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
+                    <Image src={product.imageUrl} width={520} height={480} alt="" />
+                  </Link>
 
-        {products.map(product => {
-          return (
-            <>
-              <Product className="keen-slider__slide">
-                <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
-                  <Image src={product.imageUrl} width={520} height={480} alt="" />
-                </Link>
+                  <footer>
+                    <Separator>
+                      <strong>{product.name}</strong>
+                      <span>{product.price}</span>
+                    </Separator>
+                    <button onClick={() => addItem(product, { count: 1 })}>
+                      <Bag size={32} weight="bold" />
+                    </button>
+                  </footer>
+                </Product>
+              </>
+            )
+          })}
+        </HomeContainer>
+      </>
+    )
 
-                <footer>
-                  <Separator>
-                    <strong>{product.name}</strong>
-                    <span>{product.price}</span>
-                  </Separator>
-                  <button onClick={() => addItem(product, { count: 1 })}>
-                    <Bag size={32} weight="bold" />
-                  </button>
-                </footer>
-              </Product>
-            </>
-          )
-        })}
-      </HomeContainer>
-    </>
-  )
+  } else {
+    return <Skeleton />
+
+
+  }
 }
 
 
@@ -94,6 +104,7 @@ export const getStaticProps: GetStaticProps = async () => {
       sku: product.id
     }
   })
+
   return {
     props: {
       products

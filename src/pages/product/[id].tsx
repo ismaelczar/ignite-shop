@@ -1,7 +1,5 @@
 import { stripe } from "@/lib/stripe"
 import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/components/product"
-import { ValueFormatter } from "@/utils/formatter"
-import axios from "axios"
 import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
 import Image from "next/image"
@@ -23,8 +21,10 @@ interface ProductProps {
   }
 }
 
-export default function Clientes({ product }: ProductProps) {
+export default function Product({ product }: ProductProps) {
   const { addItem } = useShoppingCart()
+
+
 
   return (
     <>
