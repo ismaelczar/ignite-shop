@@ -1,17 +1,16 @@
-import { HomeContainer, Product, Separator } from "@/styles/components/home"
-import Image from "next/image"
-import { useKeenSlider } from 'keen-slider/react'
-
-import 'keen-slider/keen-slider.min.css'
-import { stripe } from "@/lib/stripe"
-import { GetStaticProps } from "next"
-import Stripe from "stripe"
 import Link from "next/link"
 import Head from "next/head"
+import Image from "next/image"
+import { GetStaticProps } from "next"
+
+import { HomeContainer, Product, Separator } from "@/styles/pages/home"
+import { useKeenSlider } from 'keen-slider/react'
+import 'keen-slider/keen-slider.min.css'
 import { Bag } from 'phosphor-react'
+
+import { stripe } from "@/lib/stripe"
+import Stripe from "stripe"
 import { useShoppingCart } from "use-shopping-cart"
-import { useEffect, useState } from "react"
-import Skeleton from "@/components/Skeleton"
 
 
 interface HomeProps {
@@ -27,7 +26,7 @@ interface HomeProps {
 }
 
 export default function Home({ products }: HomeProps) {
-  const [loading, setLoading] = useState(true)
+
   const { addItem } = useShoppingCart()
   const [sliderRef] = useKeenSlider({
     slides: {
@@ -36,49 +35,36 @@ export default function Home({ products }: HomeProps) {
     }
   })
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 2000)
-  }, [])
+  return (
+    <>
+      <Head>
+        <title>Home | Ignite Shop</title>
+      </Head>
+      <HomeContainer ref={sliderRef} className="keen-slider">
+        {products.map(product => {
+          return (
+            <>
+              <Product className="keen-slider__slide">
+                <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
+                  <Image src={product.imageUrl} width={520} height={480} alt="" />
+                </Link>
 
-  if (!loading) {
-    return (
-      <>
-        <Head>
-          <title>Home | Ignite Shop</title>
-        </Head>
-        <HomeContainer ref={sliderRef} className="keen-slider">
-          {products.map(product => {
-            return (
-              <>
-                <Product className="keen-slider__slide">
-                  <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
-                    <Image src={product.imageUrl} width={520} height={480} alt="" />
-                  </Link>
-
-                  <footer>
-                    <Separator>
-                      <strong>{product.name}</strong>
-                      <span>{product.price}</span>
-                    </Separator>
-                    <button onClick={() => addItem(product, { count: 1 })}>
-                      <Bag size={32} weight="bold" />
-                    </button>
-                  </footer>
-                </Product>
-              </>
-            )
-          })}
-        </HomeContainer>
-      </>
-    )
-
-  } else {
-    return <Skeleton />
-
-
-  }
+                <footer>
+                  <Separator>
+                    <strong>{product.name}</strong>
+                    <span>{product.price}</span>
+                  </Separator>
+                  <button onClick={() => addItem(product, { count: 1 })}>
+                    <Bag size={32} weight="bold" />
+                  </button>
+                </footer>
+              </Product>
+            </>
+          )
+        })}
+      </HomeContainer>
+    </>
+  )
 }
 
 
@@ -86,8 +72,6 @@ export const getStaticProps: GetStaticProps = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price']
   });
-
-
 
   const products = response.data.map(product => {
     const price = product.default_price as Stripe.Price;
@@ -110,6 +94,6 @@ export const getStaticProps: GetStaticProps = async () => {
       products
     },
 
-    revalidate: 60 * 60 * 2,
+    revalidate: 60 * 60 * 2, //2 hours
   }
 }

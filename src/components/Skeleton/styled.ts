@@ -1,92 +1,24 @@
-import { styled } from "@stitches/react"
+import { keyframes, styled } from "@stitches/react";
 
-export const HomeContainer = styled('main', {
-  display: 'flex',
+const Spin = keyframes({
+  to: { transform: 'rotate(360deg)' },
+});
 
-  width: '100%',
-  maxWidth: 'calc(100vw - ((100vw - 1180px) / 2))',
-  marginLeft: 'auto',
-  minHeight: 656,
-
-
-})
-
-
-export const Product = styled('div', {
-  background: '$gray800',
-  borderRadius: 8,
-  position: 'relative',
-  overflow: 'hidden',
-
+export const SkeletonContainer = styled('main', {
+  background: '$gray900',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  height: '100%',
 
-  img: {
-    objectFit: 'cover'
-  },
-
-  footer: {
-    position: 'absolute',
-    bottom: '0.25rem',
-    right: '0.25rem',
-    left: '0.25rem',
-    padding: '2rem',
-
-    cursor: "initial",
-
-    borderRadius: 6,
-
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-
-    background: 'rgba(0,0,0,0.6)',
-
-    transform: 'translateY(110%)',
-    opacity: 0,
-    transition: 'all 0.2s ease-in-out',
-
-    strong: {
-      fontSize: '$lg',
-      color: '$gray100'
-    },
-
-    span: {
-      fontSize: '$xl',
-      fontWeight: 'bold',
-      color: '$green300',
-    },
-
-    button: {
-      padding: 12,
-      background: '$green500',
-      borderRadius: 8,
-      border: 'none',
-      cursor: 'pointer',
-
-      svg: {
-        color: '$gray300',
-      },
-
-      '&:hover': {
-        background: '$green300',
-        svg: {
-          color: '$white',
-        }
-      },
-    },
-  },
-
-  '&:hover': {
-    footer: {
-      transform: 'translateY(0%)',
-      opacity: 1,
-    }
-  }
+  padding: '298px 0',
 })
 
-export const Separator = styled('div', {
-  display: 'flex',
-  flexDirection: 'column'
+export const Div = styled('div', {
+  border: '8px solid rgba(0, 0, 0, 1)',
+  borderLeftColor: '$green300',
+  height: 60,
+  width: 60,
+  borderRadius: '50%',
+  animation: `${Spin} 1s linear infinite`,
 })

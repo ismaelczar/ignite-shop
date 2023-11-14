@@ -29,13 +29,11 @@ export default function Cart() {
     removeItem,
     incrementItem,
     decrementItem,
-    redirectToCheckout
   } = useShoppingCart()
 
   const products = cartDetails ? Object.keys(cartDetails).map(item => cartDetails[item]) : [];
 
   async function handleByProduct() {
-
     try {
       const response = await axios.post('/api/checkout', {
         products: products
@@ -43,14 +41,11 @@ export default function Cart() {
 
       const { checkoutUrl } = response.data
       window.location.href = checkoutUrl
+
     } catch (error) {
       alert('Falha ao redirencionar ao checkout!')
     }
-
-
   }
-
-  console.log(cartDetails)
 
   return (
     <Overlay>
