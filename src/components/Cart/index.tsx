@@ -19,7 +19,6 @@ import { X } from "phosphor-react";
 import { useShoppingCart } from 'use-shopping-cart'
 import axios from "axios";
 
-
 export default function Cart() {
 
   const {
@@ -29,9 +28,11 @@ export default function Cart() {
     removeItem,
     incrementItem,
     decrementItem,
+    clearCart
   } = useShoppingCart()
 
   const products = cartDetails ? Object.keys(cartDetails).map(item => cartDetails[item]) : [];
+
 
   async function handleByProduct() {
     try {
@@ -41,16 +42,17 @@ export default function Cart() {
 
       const { checkoutUrl } = response.data
       window.location.href = checkoutUrl
+      clearCart()
 
-    } catch (error) {
+    } catch (err) {
       alert('Falha ao redirencionar ao checkout!')
     }
   }
 
+
   return (
     <Overlay>
       <Content>
-
         {products.length > 0 ? (
           <>
             <ProductsSelected>

@@ -83,6 +83,7 @@ export const getStaticProps: GetStaticProps = async () => {
       price: price.unit_amount !== null
         ? price.unit_amount / 100
         : 0,
+      priceId: price.id,
       description: product.description,
       currency: 'USD',
       sku: product.id
@@ -93,7 +94,6 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       products
     },
-
     revalidate: 60 * 60 * 2, //2 hours
   }
 }

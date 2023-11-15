@@ -1,7 +1,9 @@
 import { styled } from "@stitches/react";
 import * as Dialog from '@radix-ui/react-dialog'
 
-export const Overlay = styled(Dialog.Overlay, {})
+export const Overlay = styled(Dialog.Overlay, {
+  height: '100vh',
+})
 
 export const Content = styled(Dialog.Content, {
   height: '100vh',

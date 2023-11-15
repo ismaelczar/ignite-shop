@@ -1,9 +1,15 @@
 import { stripe } from "@/lib/stripe";
 import { NextApiRequest, NextApiResponse } from "next";
 
+interface Products {
+  priceId: string;
+  quantity: number;
+}
+
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
 
-  const { products } = req.body;
+  const { products }: { products: Products[] } = req.body;
+  console.log(products);
 
 
   if (req.method !== 'POST') {
