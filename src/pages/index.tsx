@@ -46,13 +46,13 @@ export default function Home({ products }: HomeProps) {
             <>
               <Product className="keen-slider__slide">
                 <Link key={product.id} href={`/product/${product.id}`} prefetch={false}>
-                  <Image src={product.imageUrl} width={520} height={480} alt="" />
+                  <Image src={product.imageUrl} width={420} height={380} alt="" />
                 </Link>
 
                 <footer>
                   <Separator>
                     <strong>{product.name}</strong>
-                    <span>{product.price}</span>
+                    <span>R$ {product.price}</span>
                   </Separator>
                   <button onClick={() => addItem(product, { count: 1 })}>
                     <Bag size={32} weight="bold" />

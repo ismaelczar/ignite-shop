@@ -9,7 +9,6 @@ interface Products {
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
 
   const { products }: { products: Products[] } = req.body;
-  console.log(products);
 
 
   if (req.method !== 'POST') {

@@ -45,7 +45,7 @@ export default function Product({ product }: ProductProps) {
         </ImageContainer>
         <ProductDetails>
           <h1>{product.name}</h1>
-          <span>{product.price}</span>
+          <span>R$ {product.price}</span>
           <p>{product.description}</p>
 
           <button onClick={() => addItem(product, { count: 1 })}>
