@@ -23,7 +23,6 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 Precisará também fazer a seguinte configuração para rodar o projeto:
 * Criar uma conta e projeto no [Stripe](https://stripe.com/br), e copiar as chaves pública e privada do projeto
 * Criar na raiz do projeto o arquivo `.env.local`
-* Criar no arquivo `.env.local` as variáveis de ambiente, conforme o exemplo do arquivo `.env.example`
 * Colocar nas variáveis de ambiente os respectivos valores, incluindo as chaves copiadas do projeto do STRIPE
 
 Todos cartões de crédito disponíveis para teste (ex: 4242 4242 4242 4242) estão especificados na seguinte [documentação](https://stripe.com/docs/testing#cards) do Stripe
@@ -38,7 +37,7 @@ $ git clone https://github.com/ismaelczar/ignite-shop.git
 $ cd ignite-shop
 
 # Instale as dependências
-$ yarn add
+$ yarn install
 
 # Configure as variáveis de ambiente (conforme já explicado anteriormente)
 
