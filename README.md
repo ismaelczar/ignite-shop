@@ -1,4 +1,6 @@
-# Ignite Shop
+<h1 align="center">
+    <img alt="Ignite SHop" title="" src="/src/assets/logoIgnite.svg" />
+</h1>
 
 O Ignite Shop é um aplicativo web de vendas de camisetas com temas do mundo dev, mostrando com detalhes a parte visual e informacional das camisetas, além de apresentar um carrinho onde o cliente pode adicionar suas compras.
 O principal conceito treinado nesta aplicação foi a utilização do framework Next.js, explorando conceitos como o de SSR (Server Side Rendering) e SSG (Static Site Generation), além da utilização da biblioteca Stitches.js para a estilização.
